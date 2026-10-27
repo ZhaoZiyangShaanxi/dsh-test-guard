@@ -17,6 +17,8 @@ dsh --profile headless --dump-config
 
 安装仅挂载服务，不会自动发出 LLM 请求。编辑 profile 的插件配置，为 `providers` 添加自己的 OpenAI 兼容 endpoint、模型和任务标签，例如 `review` 使用强模型，`test-gen` 使用快模型。当前补丁的 `providers: []` 是安全的空配置；空配置下调用审查会明确失败。密钥应通过部署环境的配置注入，不要提交到 Git。
 
+不想授权源码构建时，可从 [GitHub Releases](https://github.com/ZhaoZiyangShaanxi/dsh-test-guard/releases) 下载预编译的 `dsh-test-guard-0.1.0.tgz`，再执行 `dsh plugin --profile headless add ./dsh-test-guard-0.1.0.tgz`。
+
 ## 目录
 
 ```text
