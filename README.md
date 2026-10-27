@@ -13,7 +13,7 @@ dsh plugin --profile headless add github:ZhaoZiyangShaanxi/dsh-test-guard
 dsh --profile headless --dump-config
 ```
 
-源码依赖 `prepare` 编译 TypeScript；如果 pnpm 拒绝运行构建脚本，请在对应 profile 的 `pnpm-workspace.yaml` 的 `allowBuilds` 中允许 `dsh-test-guard`，再重新安装。也可以在本仓库执行 `npm ci && npm pack`，用生成的 `.tgz` 执行 `dsh plugin --profile headless add ./dsh-test-guard-0.1.0.tgz`。npm 发布后可直接 `dsh plugin --profile headless add dsh-test-guard`。
+源码依赖 `prepare` 编译 TypeScript；如果 pnpm 拒绝运行构建脚本，请把错误信息中打印的**完整包键**复制到对应 profile 的 `pnpm-workspace.yaml` 的 `allowBuilds`（GitHub 安装时包键通常包含 tarball URL 和提交 SHA），再重新安装。也可以在本仓库执行 `npm ci && npm pack`，用生成的 `.tgz` 执行 `dsh plugin --profile headless add ./dsh-test-guard-0.1.0.tgz`。npm 发布后可直接 `dsh plugin --profile headless add dsh-test-guard`。
 
 安装仅挂载服务，不会自动发出 LLM 请求。编辑 profile 的插件配置，为 `providers` 添加自己的 OpenAI 兼容 endpoint、模型和任务标签，例如 `review` 使用强模型，`test-gen` 使用快模型。当前补丁的 `providers: []` 是安全的空配置；空配置下调用审查会明确失败。密钥应通过部署环境的配置注入，不要提交到 Git。
 
@@ -81,3 +81,7 @@ npm test
 前端宿主挂载 `new ReviewPanel({ codeReview: ctx.codeReview, smartRoute: ctx.smartRoute, testAwareContext: ctx.testAwareContext }, container, ide)`。面板订阅 `codeReview.onReviewed()`，因此挂载后任意 `review(changes)` 完成都会显示摘要、门禁评级和问题卡片。`ide` 实现 `ReviewPanelIde`：打开文件、突出显示行、在编辑器行号槽标记水滴、读取/写入测试文件。重新审查或卸载时会清理旧标记；卸载调用 `panel.dispose()`。
 
 缺测和弱断言卡片上的生成按钮会提取问题附近代码及现有测试，经上下文管理器压缩后调用 `smartRoute.routeAndExecute('test-gen', ...)`。面板先显示替换 Diff；“手动编辑”可改生成代码，“确认替换”才会调用 IDE 的 `writeTestFile()`。本仓库尚无 DSH Web Client Slot 或具体编辑器实现，因此实际应用需将该组件挂入宿主 Client Slot，并提供 `ReviewPanelIde` 适配器；Host 与 Client 分进程时还需把审查完成事件经宿主通信层转发到 Client。
+
+## 参与协作
+
+欢迎通过 [GitHub Issues](https://github.com/ZhaoZiyangShaanxi/dsh-test-guard/issues) 报告问题或提出改进，并通过 Pull Request 提交修复。请先阅读 [CONTRIBUTING.md](./CONTRIBUTING.md)。本项目采用 MIT 许可证。
