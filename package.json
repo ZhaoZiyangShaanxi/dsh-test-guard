@@ -1,0 +1,52 @@
+{
+  "name": "dsh-test-guard",
+  "version": "0.1.0",
+  "description": "Test development workbench plugin for DeepSeek Harness",
+  "license": "MIT",
+  "author": "ZhaoZiyangShaanxi",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZhaoZiyangShaanxi/dsh-test-guard.git"
+  },
+  "homepage": "https://github.com/ZhaoZiyangShaanxi/dsh-test-guard#readme",
+  "bugs": "https://github.com/ZhaoZiyangShaanxi/dsh-test-guard/issues",
+  "keywords": ["deepseek-harness", "dsh-plugin", "cordis", "vitest", "code-review", "testing"],
+  "engines": { "node": ">=20", "dsh": ">=0.2.1-rc.2 <0.3.0" },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "prepare": "npm run build"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.5"
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "^3.18.5"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "^4.0.5",
+    "@types/node": "^24.19.2",
+    "typescript": "^5.6.3",
+    "vitest": "^5.0.5"
+  }
+}
